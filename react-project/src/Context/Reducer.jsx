@@ -9,6 +9,8 @@ function reducer(state,action) {
             return {...state,pin:action.playload}
         case "setcity":
             return {...state,city:action.playload}
+        case "setcartLength":
+                return action.playload
         default:
             return state
     }

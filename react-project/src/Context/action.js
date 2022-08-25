@@ -10,3 +10,10 @@ export const setpin=(value)=>{
 export const setcity=(value)=>{
     return ({type:"setcity",playload:value})
 }
+export const setcartLength=(value)=>{
+    return ({type:"setcartLength",playload:value})
+}
+export const toggleis=(value)=>{
+    console.log(value.iss);
+    return ({type:"toggleis",playload:value.iss})
+}
