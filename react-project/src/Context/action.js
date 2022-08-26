@@ -14,6 +14,9 @@ export const setcartLength=(value)=>{
     return ({type:"setcartLength",playload:value})
 }
 export const toggleis=(value)=>{
-    console.log(value.iss);
+    // console.log(value.iss);
     return ({type:"toggleis",playload:value.iss})
+}
+export const toggleregpop=(value)=>{
+    return ({type:"toggleregpop",playload:!value})
 }

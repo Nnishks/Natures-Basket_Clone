@@ -1,3 +1,4 @@
+import { act } from "react-dom/test-utils"
 
 
 
@@ -10,7 +11,9 @@ function reducer(state,action) {
         case "setcity":
             return {...state,city:action.playload}
         case "setcartLength":
-                return action.playload
+                return (action.playload)
+        case "toggleregpop":
+            return action.playload
         default:
             return state
     }

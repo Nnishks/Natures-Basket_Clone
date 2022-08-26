@@ -41,9 +41,10 @@ import {
 import { Link } from "react-router-dom";
 import { useState, useReducer } from "react";
 import reducer from "../Context/Reducer";
-import { setinputpin, setpin, setcity, setcartLength, toggleis } from "../Context/action";
+import { setinputpin, setpin, setcity, setcartLength, toggleis, toggleregpop } from "../Context/action";
 import { AuthContext } from "../Context/AuthContext";
 import Login from "./Login";
+import Register from "./Register";
 
 
 // const cartNum=JSON.parse(localStorage.getItem("cartmei")) || [];
@@ -52,19 +53,27 @@ const inival = {
   pin: null,
   inputpin: null,
   city: "Mumbai",
-  // iss:1
+  
 };
 
 function Header() {
  const [state, dispatch] = useReducer(reducer, inival);
    const {stateA,dispatchA} = useContext(AuthContext)
    const [loignstate,setloginstate] = useState(false)
+   const {stateB,dispatchB} = useContext(AuthContext)
+   const {isAuth,email,logout} = useContext(AuthContext)
    useEffect(()=>{
        dispatchA(setcartLength)
       
    },[stateA])
 
    const { isOpen, onOpen, onClose } = useDisclosure();
+
+   function dekh(){
+    if(loignstate===false){
+        setloginstate(true)}
+     else{setloginstate(false)}
+  }
 
 function dekh(){
   if(loignstate===false){
@@ -106,6 +115,12 @@ function dekh(){
     dispatch(setinputpin(null));
     dispatch(setpin(null));
     // pincheck()
+  }
+  function logoutt(){
+   
+    logout()
+    localStorage.removeItem("login")
+    return (alert("logout successfull"))
   }
   console.log(loignstate)
   return (
@@ -208,9 +223,38 @@ function dekh(){
       </div>
       {/* nav center end*/}
       <div className="navEndDiv">
+
         <div className="navend1">
-          <div onClick={dekh}>
-            
+        { isAuth?
+        <div style={{ fontSize:"15px",padding:"0px",
+        marginTop:"0px",marginLeft:"-40px",width:"200px", display:"flex",
+        justifyContent:"space-between"}}>
+
+        <div >{email}</div>
+
+        <div onClick={logoutt}>Logout</div>
+        </div>
+        :<>
+        <div onClick={dekh}>
+          
+          <span  className="upd" id="loginnav">
+            login
+          </span>
+         
+        </div>
+        <div>
+          <span className="upd">|</span>
+        </div>
+        <div onClick={()=>dispatchB(toggleregpop(stateB))}>
+          <span className="upd" id="regnav">
+            {" "}
+            Register
+          </span>
+        </div>
+        </>
+        }
+          {/* <div onClick={dekh}>
+          
             <span  className="upd" id="loginnav">
               login
             </span>
@@ -219,12 +263,12 @@ function dekh(){
           <div>
             <span className="upd">|</span>
           </div>
-          <div>
+          <div onClick={()=>dispatchB(toggleregpop(stateB))}>
             <span className="upd" id="regnav">
               {" "}
               Register
             </span>
-          </div>
+          </div> */}
         </div>
 
         <div className="navend2">
@@ -283,7 +327,8 @@ function dekh(){
         </Modal>
       </div>
  
-       <Login is={loignstate} setis={setloginstate}/>   
+       <Login is={loignstate} setis={setloginstate}/>  
+       <Register /> 
        
     </div>
     

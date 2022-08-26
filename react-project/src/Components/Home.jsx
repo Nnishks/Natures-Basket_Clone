@@ -5,6 +5,7 @@ import { color } from "@chakra-ui/react";
 import { setcartLength } from "../Context/action";
 import SliderComp from "./Slider";
 import { AuthContext } from "../Context/AuthContext";
+import {Link} from "react-router-dom"
 let trenddata = [
   {
     img: "https://d1z88p83zuviay.cloudfront.net/ProductVariantThumbnailImages/17d6b165-a222-4e0e-9d2e-20c34236e277_425x425.jpg",
@@ -503,7 +504,7 @@ function Home() {
           <a>MY ORDERS</a>
         </div>
         <div className="heading">
-          <a href="raj.html">GIFTING</a>
+          <Link to="/gift">GIFTING</Link> 
         </div>
         <div className="heading">
           <a>REWARDS</a>
