@@ -41,11 +41,18 @@ import {
 import { Link } from "react-router-dom";
 import { useState, useReducer } from "react";
 import reducer from "../Context/Reducer";
-import { setinputpin, setpin, setcity, setcartLength, toggleis, toggleregpop } from "../Context/action";
+import {
+  setinputpin,
+  setpin,
+  setcity,
+  setcartLength,
+  toggleis,
+  toggleregpop,
+} from "../Context/action";
 import { AuthContext } from "../Context/AuthContext";
 import Login from "./Login";
 import Register from "./Register";
-
+import { giftdata } from "../Context/giftdata";
 
 // const cartNum=JSON.parse(localStorage.getItem("cartmei")) || [];
 // dispatch(setcartLength(cartNum.length))
@@ -53,33 +60,37 @@ const inival = {
   pin: null,
   inputpin: null,
   city: "Mumbai",
-  
 };
 
 function Header() {
- const [state, dispatch] = useReducer(reducer, inival);
-   const {stateA,dispatchA} = useContext(AuthContext)
-   const [loignstate,setloginstate] = useState(false)
-   const {stateB,dispatchB} = useContext(AuthContext)
-   const {isAuth,email,logout} = useContext(AuthContext)
-   useEffect(()=>{
-       dispatchA(setcartLength)
-      
-   },[stateA])
+  const [state, dispatch] = useReducer(reducer, inival);
+  const { stateA, dispatchA } = useContext(AuthContext);
+  const [loignstate, setloginstate] = useState(false);
+  const { stateB, dispatchB } = useContext(AuthContext);
+  const { isAuth, email, logout ,setsinglepageElem,singlepageElem} = useContext(AuthContext);
+  const [navSearchState, setnavSearchState] = useState([]);
+  const [Shown,setShown] = useState("")
+  useEffect(() => {
+    dispatchA(setcartLength);
+  }, [stateA]);
 
-   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-   function dekh(){
-    if(loignstate===false){
-        setloginstate(true)}
-     else{setloginstate(false)}
+  function dekh() {
+    if (loignstate === false) {
+      setloginstate(true);
+    } else {
+      setloginstate(false);
+    }
   }
 
-function dekh(){
-  if(loignstate===false){
-      setloginstate(true)}
-   else{setloginstate(false)}
-}
+  function dekh() {
+    if (loignstate === false) {
+      setloginstate(true);
+    } else {
+      setloginstate(false);
+    }
+  }
 
   function pinwithcity(state) {
     let y = +state.inputpin;
@@ -116,22 +127,44 @@ function dekh(){
     dispatch(setpin(null));
     // pincheck()
   }
-  function logoutt(){
-   
-    logout()
-    localStorage.removeItem("login")
-    return (alert("logout successfull"))
+  function logoutt() {
+    logout();
+    localStorage.removeItem("login");
+    return alert("logout successfull");
   }
-  console.log(loignstate)
+  let id;
+  function debouncee(e) {
+    if (id) {
+      clearTimeout(id);
+    }
+    id = setTimeout(function () {
+      srch(e);
+    }, 100);
+    //srch(Event)
+  }
+
+  function srch(e) {
+    //setShown(true)
+    console.log(e.target.value);
+    let searchtar = e.target.value;
+     setShown(searchtar)
+    let newsearchdata = giftdata.filter((el) => {
+      return el.name.includes(searchtar);
+    });
+    setnavSearchState(newsearchdata);
+   // console.log(newsearchdata)
+  }
+console.log(Shown)
+  //console.log(loignstate);
   return (
     <div className="navBox">
-      <div  className="navLogoDiv">
+      <div className="navLogoDiv">
         <Link to="/">
-        <img
-          className="navLogo"
-          src="https://www.naturesbasket.co.in/Images/logosnew.png?v=2"
-          alt="logo"
-        />
+          <img
+            className="navLogo"
+            src="https://www.naturesbasket.co.in/Images/logosnew.png?v=2"
+            alt="logo"
+          />
         </Link>
       </div>
 
@@ -200,10 +233,10 @@ function dekh(){
             </BreadcrumbItem>
           </Breadcrumb>
         </div>
-
         <div className="navSearchBox">
           <InputGroup>
             <Input
+              onInput={debouncee}
               width="820px"
               className="navSearch"
               type="text"
@@ -218,41 +251,53 @@ function dekh(){
             />
           </InputGroup>
         </div>
-
+        {/* {navSearchState.length>=1?<div className="blwsrch" style={{ backgroundColor:"red"}}>{navSearchState.map((el)=>{
+          return(<p>{el.name}</p>)
+        })}</div>:null} */}
+        <div className="blwsrch"  style={{ display:Shown ? 'block' : 'none' }}>
+          {navSearchState.map((el) => {
+            return <Link to={`/gift/${el.name}`}><p onClick={()=>{setsinglepageElem(el)}}>{el.name}</p></Link>
+          })}
+        </div>
         {/* hmm middle ka upper */}
       </div>
       {/* nav center end*/}
       <div className="navEndDiv">
-
         <div className="navend1">
-        { isAuth?
-        <div style={{ fontSize:"15px",padding:"0px",
-        marginTop:"0px",marginLeft:"-40px",width:"200px", display:"flex",
-        justifyContent:"space-between"}}>
+          {isAuth ? (
+            <div
+              style={{
+                fontSize: "15px",
+                padding: "0px",
+                marginTop: "0px",
+                marginLeft: "-40px",
+                width: "200px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <div>{email}</div>
 
-        <div >{email}</div>
-
-        <div onClick={logoutt}>Logout</div>
-        </div>
-        :<>
-        <div onClick={dekh}>
-          
-          <span  className="upd" id="loginnav">
-            login
-          </span>
-         
-        </div>
-        <div>
-          <span className="upd">|</span>
-        </div>
-        <div onClick={()=>dispatchB(toggleregpop(stateB))}>
-          <span className="upd" id="regnav">
-            {" "}
-            Register
-          </span>
-        </div>
-        </>
-        }
+              <div onClick={logoutt}>Logout</div>
+            </div>
+          ) : (
+            <>
+              <div onClick={dekh}>
+                <span className="upd" id="loginnav">
+                  login
+                </span>
+              </div>
+              <div>
+                <span className="upd">|</span>
+              </div>
+              <div onClick={() => dispatchB(toggleregpop(stateB))}>
+                <span className="upd" id="regnav">
+                  {" "}
+                  Register
+                </span>
+              </div>
+            </>
+          )}
           {/* <div onClick={dekh}>
           
             <span  className="upd" id="loginnav">
@@ -282,21 +327,21 @@ function dekh(){
 
           <div>
             <Link to="/cart">
-            <img
-              className="cartImg"
-              src="https://tse1.mm.bing.net/th?id=OIP.A5xDkicpGAHdvTFK5fPecAHaHa&pid=Api&P=0"
-              alt=""
-            />
+              <img
+                className="cartImg"
+                src="https://tse1.mm.bing.net/th?id=OIP.A5xDkicpGAHdvTFK5fPecAHaHa&pid=Api&P=0"
+                alt=""
+              />
             </Link>
           </div>
 
           <span className="cartNumber">{stateA}</span>
         </div>
-        
+
         {/* end div end */}
       </div>
 
-      <div >
+      <div>
         <Modal isCentered="true" size="3xl" isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
@@ -326,12 +371,10 @@ function dekh(){
           </ModalContent>
         </Modal>
       </div>
- 
-       <Login is={loignstate} setis={setloginstate}/>  
-       <Register /> 
-       
+
+      <Login is={loignstate} setis={setloginstate} />
+      <Register />
     </div>
-    
 
     // </Container>
   );

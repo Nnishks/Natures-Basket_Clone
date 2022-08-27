@@ -5,14 +5,16 @@ import Gift from "../Components/Gift";
 import Header from "../Components/Header";
 import Home from "../Components/Home";
 import Login from "../Components/Login";
+import SearchPage from "../Components/SearchPage";
 
 function AllRoutes () {
     return (
         <Routes>
            <Route path='/' element={ <Home /> }/>
-           {/* <Route path='/login' element={<Login />}/> */}
+            <Route path='/gift/:name' element={< SearchPage/>}/> 
            <Route path="/gift" element={<Gift />} />
            <Route path='/cart' element={<Cart /> } /> 
+
           {/* <Route path='path' element={}/> 
           <Route path='path' element={}/>
           <Route path='path' element={}/>

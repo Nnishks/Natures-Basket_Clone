@@ -176,3 +176,9 @@ border: 2px solid red; */
   outline: none;
   height: 24px;
 }
+.blwsrch{
+   border:2px solid royalblue; 
+  position: absolute;
+  top:81px;
+  left: 900px;
+}

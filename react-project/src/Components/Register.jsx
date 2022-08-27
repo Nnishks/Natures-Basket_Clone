@@ -13,7 +13,6 @@ function Register() {
     const {stateB,dispatchB} = useContext(AuthContext)
     const [user,setuser] = useState(initial)
     const { isOpen, onOpen, onClose } = useDisclosure()
-
     function set(event){
         // myfun()
        dispatchB(toggleregpop(stateB))
