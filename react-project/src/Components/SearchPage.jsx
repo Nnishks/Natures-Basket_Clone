@@ -81,6 +81,11 @@ function SearchPage() {
           <Text>₹ {singlepageElem.price}</Text>
           <Text>{singlepageElem.name}</Text>
           <Img
+          onClick={() => {
+            topushincart.push(singlepageElem);
+            localStorage.setItem("cartmei", JSON.stringify(topushincart));
+            dispatchA(setcartLength(topushincart.length));
+          }}
             className="cartthing"
             src="https://www.naturesbasket.co.in/Images/CartAddBtn.PNG"
           ></Img>
