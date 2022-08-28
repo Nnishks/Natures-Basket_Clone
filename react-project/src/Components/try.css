@@ -1,3 +1,4 @@
+/* this is for home page */
 #mainnav {
   border: 1px solid rgb(205, 201, 201);
   width: 88%;
@@ -43,9 +44,9 @@
   align-items: center;
   /* border: 2px solid red; */
 }
-#poster2>img{
+#poster2 > img {
   /* border: 2px solid red; */
- width: 97%;
+  width: 97%;
 }
 
 #poster3 {
@@ -345,7 +346,7 @@ h1 {
   background: white;
 }
 ul:hover {
-  background-color: green;
+  /* background-color: green; */
 }
 .heading {
   border: 1px solid transparent;

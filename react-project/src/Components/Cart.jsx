@@ -1,66 +1,112 @@
-import { MinusIcon, SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { MinusIcon, SmallAddIcon } from "@chakra-ui/icons";
 import {
+  Button,
   Input,
   InputGroup,
-  InputLeftAddon,
   InputLeftElement,
-  InputRightAddon,
   InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  Toast,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { setcartLength } from "../Context/action";
 import { AuthContext } from "../Context/AuthContext";
 import "./cart.css";
 
-
-
-let arrdata = JSON.parse(localStorage.getItem("cartmei")) || [];
 function Cart() {
-const {stateA,dispatchA} = useContext(AuthContext)
-    
-  const [cartitem, setcartitem] = useState(JSON.parse(localStorage.getItem("cartmei")) || []);
-  const [total, settotal] = useState(0);
-  useEffect(()=>{
-    let totall=0;
-    cartitem?.forEach((el)=>{
-        return(
-            totall+=(+el.price*+el.quantity)
-        )
-    })
-    settotal(totall)
-  },[cartitem])
- 
+  const { dispatchA } = useContext(AuthContext); //set cart length on icon
+  const { isOpen, onOpen, onClose } = useDisclosure(); // uset to open thanks purachase
+  const [cartitem, setcartitem] = useState(
+    JSON.parse(localStorage.getItem("cartmei")) || []
+  ); // use to show items , cartmei is the ky on ls for items
+  const [total, settotal] = useState(0); //set for total price
+  const navigate = useNavigate(); // set to move home page after purchase
+  const [state, setState] = useState("");
+  const arr = useRef([]);
+  const prev = useRef(0);
+  // const toast = useToast()
+  //   const [isModalVisible, setIsModalVisible] = useState(false)
+  const toast = useToast();
+  //const status = ['success', 'error', 'warning', 'info']
 
-  function change1(el,i){
+  //var prevT;
+  useEffect(() => {
+    let totall = 0;
 
-    cartitem[i].quantity=Number(cartitem[i].quantity)+1
-    // let x=arrdata[i]
-    // console.log(arrdata)
-   // setcartitem([])
-     setcartitem([...cartitem])
-    //  console.log(x)
+    cartitem?.forEach((el) => {
+      return (totall += +el.price * +el.quantity);
+    });
+    settotal(totall);
+    prev.current = totall;
+  }, [cartitem]);
+
+  // change1 is used to manage increase in quantity
+  function change1(el, i) {
+    if (Number(cartitem[i].quantity) < 9) {
+      cartitem[i].quantity = Number(cartitem[i].quantity) + 1;
+      setcartitem([...cartitem]);
+    } else {
+      alert("cant add more than 9 quantity");
+    }
   }
-   function change2(el,i){
-    if( Number(cartitem[i].quantity)>1){
-        cartitem[i].quantity=Number(cartitem[i].quantity)-1
-    //  let x=arrdata[i]
-    console.log(arrdata)
-    setcartitem([...cartitem])
-    //   console.log(x)
-     }
+
+  // change2 is used to manage decrease in quantity
+  function change2(el, i) {
+    if (Number(cartitem[i].quantity) > 1) {
+      cartitem[i].quantity = Number(cartitem[i].quantity) - 1;
+      setcartitem([...cartitem]);
+    }
+  }
+
+  function handle(e) {
+    setState(e.target.value);
+  }
+
+  function discount(e) {
+    e.preventDefault();
+    console.log(arr.current);
+    if (
+      state === "D20" &&
+      arr.current.includes(state) === false &&
+      +total > 10
+    ) {
+      let remove = (total * 20) / 100;
+      let newT = total - remove;
+      settotal(newT);
+      arr.current.push(state);
+      toast({
+        title: `promocode applied successfully`,
+        position: "bottom-left",
+        duration: 3000,
+        status: "success",
+        isClosable: true,
+      });
+
+      //console.log(arr.current)
+    } else {
+      toast({
+        position: "bottom-left",
+        duration: 3000,
+        title: `yu cant use same promocode again`,
+        status: "warning",
+        isClosable: true,
+      });
+    }
   }
 
   return (
     <div>
-      {/* <div>
-        <img
-          alt="err"
-          id="firstimg"
-          src="https://www.naturesbasket.co.in/Images/logosnew.png?v=2"
-          //    style="cursor: pointer; display: block ;margin-left:20px;"
-        />
-      </div> */}
       <section className="cartstart ">
         <h2 className="cartheader">CART</h2>
         <br></br>
@@ -75,7 +121,6 @@ const {stateA,dispatchA} = useContext(AuthContext)
 
         <div className="cart-items">
           {cartitem.map((el, i) => {
-            //totall+=el.price*el.quantity
             return (
               <div className="cart-row">
                 <div className="cart-item cart-column">
@@ -93,34 +138,31 @@ const {stateA,dispatchA} = useContext(AuthContext)
                   {el.price}
                 </span>
                 <div className="cart-quantity cart-column">
-                  {/* <span>-</span> */}
                   <InputGroup width="90px">
                     <InputLeftElement
-                    onClick={()=>change2(el,i)}
-                    //   pointerEvents="none"
+                      onClick={() => change2(el, i)}
+                      //   pointerEvents="none"
                       color="gray.300"
                       fontSize="1.2em"
                       children={<MinusIcon color="#EB5757" />}
                     />
                     <Input value={el.quantity} />
                     <InputRightElement
-                    onClick={()=>change1(el,i)}
+                      onClick={() => change1(el, i)}
                       children={<SmallAddIcon color="#EB5757" />}
                     />
-
-                    {/* <InputLeftAddon ></InputLeftAddon>
-                        <Input className='cart-quantity-input'/>
-                        <InputRightAddon></InputRightAddon> */}
                   </InputGroup>
 
-                  <button onClick={()=> {
-                     cartitem.splice(el, 1);
-                     setcartitem([...cartitem])
-                    //  if(arrdata.length==)
-      localStorage.setItem("cartmei", JSON.stringify(cartitem))
-      dispatchA(setcartLength(cartitem.length))
-      } }
-       className="btn btn-danger cart-quantity-button">
+                  <button
+                    onClick={() => {
+                      cartitem.splice(i, 1);
+                      setcartitem([...cartitem]);
+                      //  if(arrdata.length==)
+                      localStorage.setItem("cartmei", JSON.stringify(cartitem));
+                      dispatchA(setcartLength(cartitem.length));
+                    }}
+                    className="btn btn-danger cart-quantity-button"
+                  >
                     Remove
                   </button>
                 </div>
@@ -128,31 +170,64 @@ const {stateA,dispatchA} = useContext(AuthContext)
             );
           })}
         </div>
-        <form
-          id="form1"
-          // style="border:0px solid red; width:200px; margin-top: 10px; float:left"
-        >
+        <br></br>
+
+        <form id="form1" onSubmit={discount}>
           <input
             id="name"
-            // value=""
-            //  style="border:0px solid red; width:100px"
+            value={state}
+            onChange={handle}
             type="name"
             placeholder="promocode"
           />
-          <input
-            id="submit"
-            type="submit"
-            // value="apply code"
-          ></input>
+          <input id="submit" type="submit"></input>
         </form>
+        <br></br>
+        <button
+          onClick={() => {
+            settotal(prev.current);
+            setState("");
+            arr.current.pop();
+          }}
+        >
+          Remove discount
+        </button>
         <div className="cart-total">
           <strong className="cart-total-title">Total</strong>
           <span className="cart-total-price">Rs:{total}</span>
         </div>
-        <button className="btn btn-primary btn-purchase" type="button">
+        <button
+          onClick={onOpen}
+          className="btn btn-primary btn-purchase"
+          type="button"
+        >
           PURCHASE
         </button>
       </section>
+      <>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Congratulations </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text>Order Successfully Placed !</Text>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                onClick={() => {
+                  localStorage.removeItem("cartmei");
+                  setcartitem(null);
+                  navigate("/");
+                  dispatchA(setcartLength(0));
+                }}
+              >
+                Go to home page
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
     </div>
   );
 }

@@ -17,9 +17,7 @@ function SliderComp() {
       style={{ textALign: "center", padding: "10px 100px", marginLeft: "50px" }}
     >
       <Slider {...settings}>
-        
         <div>
-
           <div class="product-card">
             <div class="product-image">
               <img
@@ -40,7 +38,6 @@ function SliderComp() {
               <button class="btnn">View all</button>
             </div>
           </div>
-
         </div>
 
         <div>

@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Metal+Mania");
+
 .navLogo {
   /* box-sizing: border-box; */
   /* padding-top: 0px;
@@ -140,6 +143,7 @@ border-bottom-left-radius: 7px; */
   border-radius: 50%;
   text-align: center;
   width: 20px;
+  /* color:yellow; */
 
   /* background-color: rgb(37, 36, 35);
     border-radius: 50%;
@@ -176,9 +180,16 @@ border: 2px solid red; */
   outline: none;
   height: 24px;
 }
-.blwsrch{
-   border:2px solid royalblue; 
+.blwsrch {
+  border: 2px solid royalblue;
   position: absolute;
-  top:81px;
-  left: 900px;
+  top: 81px;
+  left: 430px;
+  line-height: 24px;
+  background-color: whitesmoke;
+  width: 820px;
+  text-align: center;
+  font-style: italic;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
 }

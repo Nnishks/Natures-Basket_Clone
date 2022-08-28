@@ -1,83 +1,74 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,700');
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Metal+Mania");
 
-        #boundaryy{
-            width:90%;
-            display: grid;
-            grid-template-columns: repeat(4,1fr);
-            row-gap: 30px;
-            column-gap:10px;
-            /* background-color:red; */
-            margin-left: 50px;
-            margin-top: 30px;
-            font-family:"Metal Mania" ;
-            
-
-        }
-        /* #boundaryy>div:hover{
+#boundaryy {
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 30px;
+  column-gap: 10px;
+  /* background-color:red; */
+  margin-left: 50px;
+  margin-top: 30px;
+  font-family: "Metal Mania";
+}
+/* #boundaryy>div:hover{
            
             box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
         } */
-        .imagegift{
-          
-            width:280px;
-            border-radius: 20px;
-        }
-        #boxgift:hover{
-            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-        }
-        #boxgift{
-            padding: 20px;
-            border-radius: 20px;
-        }
-        /* #boundaryy>div{
+.imagegift {
+  width: 280px;
+  border-radius: 20px;
+}
+#boxgift:hover {
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+#boxgift {
+  padding: 20px;
+  border-radius: 20px;
+}
+/* #boundaryy>div{
             padding: 20px;
             border-radius: 20px;
         } */
-        .cartthing{
-          
-            text-align: center;
-            width:100px;
-            cursor: pointer;
-        }
-        #headgift{
-          
-            font-family: Metal Mania;
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .tagsgift{
-            
-            background-image: url(https://i.pinimg.com/originals/80/ff/69/80ff69f319daa945a850b4efe621c19a.jpg);
-            color:#f09d45;
-            font-size: 20px;
-            width:180px;
-            height: 40px;
-            text-align: center;
-            font-family: Raleway;
-            border-radius: 10px;
-            border:2px solid rgb(191, 186, 186);
-        }
-        #filterthings{
-            
-            margin-top: 10px;
-            margin-right: 100px;
-            height: 30px;
-            display: flex;
-            justify-content: space-evenly;
-            width: 500px;
-        }
-        #achagift{
-            
-            width:20px;
-            margin-left: 110px;
-            font-size: 20px;
-            margin-bottom: 20px;
-            font-family: cursive;
-            font-style: italic;
-          }
-          #ico{
-            
-            margin-left: 10px;
-          }
+.cartthing {
+  text-align: center;
+  width: 100px;
+  cursor: pointer;
+}
+#headgift {
+  font-family: Metal Mania;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.tagsgift {
+  background-image: url(https://i.pinimg.com/originals/80/ff/69/80ff69f319daa945a850b4efe621c19a.jpg);
+  color: #f09d45;
+  font-size: 20px;
+  width: 180px;
+  height: 40px;
+  text-align: center;
+  font-family: Raleway;
+  border-radius: 10px;
+  border: 2px solid rgb(191, 186, 186);
+}
+#filterthings {
+  margin-top: 10px;
+  margin-right: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 500px;
+}
+#achagift {
+  width: 20px;
+  margin-left: 110px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-family: cursive;
+  font-style: italic;
+}
+#ico {
+  margin-left: 10px;
+}

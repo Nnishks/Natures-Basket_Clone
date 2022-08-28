@@ -5,7 +5,7 @@ import { color } from "@chakra-ui/react";
 import { setcartLength } from "../Context/action";
 import SliderComp from "./Slider";
 import { AuthContext } from "../Context/AuthContext";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 let trenddata = [
   {
     img: "https://d1z88p83zuviay.cloudfront.net/ProductVariantThumbnailImages/17d6b165-a222-4e0e-9d2e-20c34236e277_425x425.jpg",
@@ -50,9 +50,9 @@ let img = [
 let i = 0;
 
 function Home() {
-  let topushincart=JSON.parse(localStorage.getItem("cartmei"))|| [];
+  let topushincart = JSON.parse(localStorage.getItem("cartmei")) || [];
   const [movingImg, setmovingImg] = useState(img[i]);
-  const {stateA,dispatchA} = useContext(AuthContext)
+  const { stateA, dispatchA } = useContext(AuthContext);
 
   useEffect(() => {
     setInterval(() => {
@@ -64,12 +64,9 @@ function Home() {
     }, 3000);
   }, []);
 
-  
-
   return (
     <>
       <div id="mainnav" style={{ width: "90%" }}>
-      
         <div className="heading">
           <a href="">SHOP BY CATEGORY </a>
           <div className="submenu1">
@@ -504,7 +501,7 @@ function Home() {
           <a>MY ORDERS</a>
         </div>
         <div className="heading">
-          <Link to="/gift">GIFTING</Link> 
+          <Link to="/gift">GIFTING</Link>
         </div>
         <div className="heading">
           <a>REWARDS</a>
@@ -569,7 +566,7 @@ function Home() {
       <br></br>
       <h1 style={{ width: "90%" }}>SHOP BY CATEGORY</h1>
       {/* <ChevronLeftIcon color="red.600"/> */}
-      
+
       <SliderComp />
 
       <div id="poster4">
@@ -591,12 +588,12 @@ function Home() {
                 className="cartthg"
                 src="https://www.naturesbasket.co.in/Images/CartAddBtn.PNG"
                 alt=""
-                onClick={()=>{
+                onClick={() => {
                   //dispatch(setcartLength)
-                  
-                      topushincart.push(el)
+
+                  topushincart.push(el);
                   localStorage.setItem("cartmei", JSON.stringify(topushincart));
-                  dispatchA(setcartLength(topushincart.length))
+                  dispatchA(setcartLength(topushincart.length));
                 }}
               ></img>
             </div>

@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import "./Header.css"; //nav
 import {
   Button,
   Container,
+  Divider,
   FormControl,
   FormHelperText,
   HStack,
@@ -18,6 +19,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Show,
   Skeleton,
   Stack,
   Text,
@@ -67,22 +69,16 @@ function Header() {
   const { stateA, dispatchA } = useContext(AuthContext);
   const [loignstate, setloginstate] = useState(false);
   const { stateB, dispatchB } = useContext(AuthContext);
-  const { isAuth, email, logout ,setsinglepageElem,singlepageElem} = useContext(AuthContext);
+  const { isAuth, email, logout } = useContext(AuthContext);
   const [navSearchState, setnavSearchState] = useState([]);
-  const [Shown,setShown] = useState("")
+  const [Shown, setShown] = useState("");
+  const [srchinp, setsrchinp] = useState("");
+  const ref = useRef();
   useEffect(() => {
     dispatchA(setcartLength);
   }, [stateA]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  function dekh() {
-    if (loignstate === false) {
-      setloginstate(true);
-    } else {
-      setloginstate(false);
-    }
-  }
 
   function dekh() {
     if (loignstate === false) {
@@ -127,6 +123,9 @@ function Header() {
     dispatch(setpin(null));
     // pincheck()
   }
+  function handle(e) {
+    setsrchinp(e.target.value);
+  }
   function logoutt() {
     logout();
     localStorage.removeItem("login");
@@ -147,14 +146,23 @@ function Header() {
     //setShown(true)
     console.log(e.target.value);
     let searchtar = e.target.value;
-     setShown(searchtar)
+    setShown(searchtar);
     let newsearchdata = giftdata.filter((el) => {
       return el.name.includes(searchtar);
     });
     setnavSearchState(newsearchdata);
-   // console.log(newsearchdata)
+    // console.log(newsearchdata)
   }
-console.log(Shown)
+
+  function searchkaro() {
+    localStorage.removeItem("search");
+
+    localStorage.setItem("search", JSON.stringify(srchinp));
+    setShown("");
+    setsrchinp("");
+    //setnavSearchState(x);
+  }
+  // console.log(Shown)
   //console.log(loignstate);
   return (
     <div className="navBox">
@@ -236,27 +244,48 @@ console.log(Shown)
         <div className="navSearchBox">
           <InputGroup>
             <Input
+              ref={ref}
               onInput={debouncee}
               width="820px"
               className="navSearch"
               type="text"
               // focusBorderColor='pink.400'
+              // onChange={debouncee}
               placeholder="Start shopping..."
-              // value=""
+              value={srchinp}
+              onChange={handle}
+              //  value={Shown}
               // autocomplete="o"
             ></Input>
-            <InputRightAddon
-              bgColor="#92be4d !important"
-              children={<SearchIcon color="white" />}
-            />
+            <Link to={`/gift/${srchinp}`}>
+              <InputRightAddon
+                onClick={searchkaro}
+                bgColor="#92be4d !important"
+                children={<SearchIcon color="white" />}
+              />
+            </Link>
           </InputGroup>
         </div>
-        {/* {navSearchState.length>=1?<div className="blwsrch" style={{ backgroundColor:"red"}}>{navSearchState.map((el)=>{
-          return(<p>{el.name}</p>)
-        })}</div>:null} */}
-        <div className="blwsrch"  style={{ display:Shown ? 'block' : 'none' }}>
+
+        <div className="blwsrch" style={{ display: Shown ? "block" : "none" }}>
           {navSearchState.map((el) => {
-            return <Link to={`/gift/${el.name}`}><p onClick={()=>{setsinglepageElem(el)}}>{el.name}</p></Link>
+            return (
+              <Link to={`/gift/${el.name}`}>
+                <p
+                  onClick={() => {
+                    localStorage.setItem("singleprod", JSON.stringify(el));
+                    setShown("");
+                    setsrchinp("");
+                    // ref.target.value=""
+                    localStorage.removeItem("search");
+                    // setsinglepageElem(el)
+                  }}
+                >
+                  {el.name}
+                </p>
+                <Divider></Divider>
+              </Link>
+            );
           })}
         </div>
         {/* hmm middle ka upper */}
@@ -298,22 +327,6 @@ console.log(Shown)
               </div>
             </>
           )}
-          {/* <div onClick={dekh}>
-          
-            <span  className="upd" id="loginnav">
-              login
-            </span>
-           
-          </div>
-          <div>
-            <span className="upd">|</span>
-          </div>
-          <div onClick={()=>dispatchB(toggleregpop(stateB))}>
-            <span className="upd" id="regnav">
-              {" "}
-              Register
-            </span>
-          </div> */}
         </div>
 
         <div className="navend2">
@@ -342,7 +355,7 @@ console.log(Shown)
       </div>
 
       <div>
-        <Modal isCentered="true" size="3xl" isOpen={isOpen} onClose={onClose}>
+        <Modal isCentered="true" size="2xl" isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Enter Your Delivery Pincode</ModalHeader>
@@ -359,11 +372,19 @@ console.log(Shown)
               </form>
             </ModalBody>
 
-            <ModalFooter>
-              <Text fontSize="1xl">
+            <ModalFooter marginBottom="20px" padding="0px" paddingLeft="5px">
+              <Text
+                width="600px"
+                flex="left"
+                alignSelf="start"
+                align="start"
+                marginRight="20px"
+                fontSize="1xl"
+              >
                 Entering your delivery pincode will allow us to show you the
                 products available in your area and to ensure timely delivery.
               </Text>
+
               <Button colorScheme="blue" mr={3} onClick={onClose}>
                 Close
               </Button>
