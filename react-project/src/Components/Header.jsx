@@ -99,7 +99,20 @@ function Header() {
       return "Bengaluru";
     } else if (y === 110001) {
       return "Delhi NCR";
-    } else {
+    } 
+    else if (y === 400601) {
+      return "Thane";
+    } 
+    else if (y ===410206 ) {
+      return "Navi Mumbai";
+    } 
+    else if (y ===700027 ) {
+      return "Kolkata";
+    } 
+    else if (y ===496001 ) {
+      return "Raigarh MH";
+    } 
+    else {
       return "mumbai";
     }
   }
